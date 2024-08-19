@@ -21,6 +21,7 @@ export default class AddQueryToQueue {
   private sponsorBlockDisabledUntil?: Date;
   private readonly sponsorBlockTimeoutDelay;
   private readonly cache: KeyValueCacheProvider;
+  private readonly lyricSearch: boolean;
 
   constructor(@inject(TYPES.Services.GetSongs) private readonly getSongs: GetSongs,
     @inject(TYPES.Managers.Player) private readonly playerManager: PlayerManager,
@@ -31,6 +32,7 @@ export default class AddQueryToQueue {
       ? new SponsorBlock('muse-sb-integration') // UserID matters only for submissions
       : undefined;
     this.cache = cache;
+    this.lyricSearch = config.LYRIC_SEARCH;
   }
 
   public async addToQueue({
@@ -51,7 +53,10 @@ export default class AddQueryToQueue {
     const guildId = interaction.guild!.id;
     const player = this.playerManager.get(guildId);
     const wasPlayingSong = player.getCurrent() !== null;
-
+    
+    if (this.lyricSearch){
+      query = query + ' lyrics';
+    }
     const [targetVoiceChannel] = getMemberVoiceChannel(interaction.member as GuildMember) ?? getMostPopularVoiceChannel(interaction.guild!);
 
     const settings = await getGuildSettings(guildId);
@@ -198,7 +203,7 @@ export default class AddQueryToQueue {
       await interaction.editReply(`u betcha, **${firstSong.title}** and ${newSongs.length - 1} other songs were added to the queue${skipCurrentTrack ? 'and current track skipped' : ''}${extraMsg}`);
     }
   }
-
+  
   private async skipNonMusicSegments(song: SongMetadata) {
     if (!this.sponsorBlock
           || (this.sponsorBlockDisabledUntil && new Date() < this.sponsorBlockDisabledUntil)
