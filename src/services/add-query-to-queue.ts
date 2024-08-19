@@ -22,6 +22,7 @@ export default class AddQueryToQueue {
   private readonly sponsorBlockTimeoutDelay;
   private readonly cache: KeyValueCacheProvider;
   private readonly lyricSearch: boolean;
+  private readonly explicitSearch: boolean;
 
   constructor(@inject(TYPES.Services.GetSongs) private readonly getSongs: GetSongs,
     @inject(TYPES.Managers.Player) private readonly playerManager: PlayerManager,
@@ -33,6 +34,7 @@ export default class AddQueryToQueue {
       : undefined;
     this.cache = cache;
     this.lyricSearch = config.LYRIC_SEARCH;
+    this.explicitSearch = config.EXPLICIT_SEARCH;
   }
 
   public async addToQueue({
@@ -57,6 +59,9 @@ export default class AddQueryToQueue {
     if (this.lyricSearch){
       query = query + ' lyrics';
     }
+    if (this.explicitSearch){
+      query = query + ' explicit';}
+
     const [targetVoiceChannel] = getMemberVoiceChannel(interaction.member as GuildMember) ?? getMostPopularVoiceChannel(interaction.guild!);
 
     const settings = await getGuildSettings(guildId);

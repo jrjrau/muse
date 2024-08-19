@@ -17,6 +17,7 @@ const CONFIG_MAP = {
   REGISTER_COMMANDS_ON_BOT: process.env.REGISTER_COMMANDS_ON_BOT === 'true',
   DATA_DIR,
   LYRIC_SEARCH: process.env.LYRIC_SEARCH === 'true',
+  EXPLICIT_SEARCH: process.env.EXPLICIT_SEARCH === 'true',
   CACHE_DIR: path.join(DATA_DIR, 'cache'),
   CACHE_LIMIT_IN_BYTES: xbytes.parseSize(process.env.CACHE_LIMIT ?? '2GB'),
   BOT_STATUS: process.env.BOT_STATUS ?? 'online',
@@ -42,6 +43,7 @@ export default class Config {
   readonly SPOTIFY_CLIENT_SECRET!: string;
   readonly REGISTER_COMMANDS_ON_BOT!: boolean;
   readonly LYRIC_SEARCH!: boolean;
+  readonly EXPLICIT_SEARCH!: boolean;
   readonly DATA_DIR!: string;
   readonly CACHE_DIR!: string;
   readonly CACHE_LIMIT_IN_BYTES!: number;
