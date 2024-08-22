@@ -4,8 +4,12 @@
   "description": "🎧 a self-hosted Discord music bot that doesn't suck ",
   "repository": "git@github.com:jrjrau/muse.git",
   "author": "Max Isom <hi@maxisom.me>",
+  "maintainers": [
+    {
+      "name": "jrjrau",
+      "email": "complaints@jrjr.au"}],
   "license": "MIT",
-  "private": true,
+  "private": false,
   "types": "dts/types",
   "type": "module",
   "engines": {
