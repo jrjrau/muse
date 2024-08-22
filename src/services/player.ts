@@ -78,7 +78,7 @@ export default class {
   private nowPlaying: QueuedSong | null = null;
   private playPositionInterval: NodeJS.Timeout | undefined;
   private lastSongURL = '';
-  private page_size: number = PAGE_SIZE;
+  private pageSize: number = PAGE_SIZE;
 
   private positionInSeconds = 0;
   private readonly fileCache: FileCacheProvider;
@@ -94,6 +94,8 @@ export default class {
     const settings = await getGuildSettings(this.guildId);
     const {defaultVolume = DEFAULT_VOLUME} = settings;
     this.defaultVolume = defaultVolume;
+    const {pageSize = PAGE_SIZE} = settings;
+    this.pageSize = pageSize; 
 
     this.voiceConnection = joinVoiceChannel({
       channelId: channel.id,
