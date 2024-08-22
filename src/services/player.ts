@@ -60,6 +60,7 @@ export interface PlayerEvents {
 type YTDLVideoFormat = videoFormat & {loudnessDb?: number};
 
 export const DEFAULT_VOLUME = 100;
+export const PAGE_SIZE = 10;
 
 export default class {
   public voiceConnection: VoiceConnection | null = null;
@@ -77,6 +78,7 @@ export default class {
   private nowPlaying: QueuedSong | null = null;
   private playPositionInterval: NodeJS.Timeout | undefined;
   private lastSongURL = '';
+  private page_size: number = PAGE_SIZE;
 
   private positionInSeconds = 0;
   private readonly fileCache: FileCacheProvider;

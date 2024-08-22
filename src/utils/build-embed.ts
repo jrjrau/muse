@@ -1,11 +1,9 @@
 import getYouTubeID from 'get-youtube-id';
 import {EmbedBuilder} from 'discord.js';
-import Player, {MediaSource, QueuedSong, STATUS} from '../services/player.js';
+import Player, {MediaSource, QueuedSong, STATUS, PAGE_SIZE} from '../services/player.js';
 import getProgressBar from './get-progress-bar.js';
 import {prettyTime} from './time.js';
 import {truncate} from './string.js';
-
-const PAGE_SIZE = 10;
 
 const getMaxSongTitleLength = (title: string) => {
   // eslint-disable-next-line no-control-regex
@@ -90,9 +88,16 @@ export const buildQueueEmbed = (player: Player, page: number): EmbedBuilder => {
   if (page > maxQueuePage) {
     throw new Error('the queue isn\'t that big');
   }
-
-  const queuePageBegin = (page - 1) * PAGE_SIZE;
-  const queuePageEnd = queuePageBegin + PAGE_SIZE;
+  let queuePageBegin: number;
+  let queuePageEnd: number;
+  if (page == 0) {
+    queuePageBegin = 1;
+    queuePageEnd = maxQueuePage;
+  }
+  else {
+  queuePageBegin = (page - 1) * PAGE_SIZE;
+  queuePageEnd = queuePageBegin + PAGE_SIZE;}
+  
   const queuedSongs = player
     .getQueue()
     .slice(queuePageBegin, queuePageEnd)
