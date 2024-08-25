@@ -12,7 +12,7 @@ Muse is a **highly-opinionated midwestern self-hosted** Discord music bot **that
 
 ![Hero graphic](.github/hero.png)
 
-## Features
+## Features 
 
 - 🎥 Livestreams
 - ⏩ Seeking within a song/video
