@@ -187,7 +187,7 @@ export default class implements Command {
             guildId: interaction.guild!.id,
           },
           data: {
-            page_size: value,
+            pageSize: value,
           },
         });
 
@@ -210,7 +210,7 @@ export default class implements Command {
           'Auto announce next song in queue': config.autoAnnounceNextSong ? 'yes' : 'no',
           'Add to queue reponses show for requester only': config.autoAnnounceNextSong ? 'yes' : 'no',
           'Default Volume': config.defaultVolume,
-          'Queue Page Size': config.page_size,
+          'Queue Page Size': config.pageSize,
         };
 
         let description = '';
