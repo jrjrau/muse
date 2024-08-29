@@ -89,8 +89,17 @@ export const buildQueueEmbed = (player: Player, page: number, pageSize: number):
     throw new Error('the queue isn\'t that big');
   }
 
-  const queuePageBegin = (page - 1) * pageSize;
-  const queuePageEnd = queuePageBegin + pageSize;
+  let queuePageBegin: number;
+  let queuePageEnd: number;
+
+  if (page === 0) {
+    queuePageBegin = 0;
+    queuePageEnd = queueSize;
+  } else {
+    queuePageBegin = (page - 1) * pageSize;
+    queuePageEnd = queuePageBegin + pageSize;
+  }
+
   const queuedSongs = player
     .getQueue()
     .slice(queuePageBegin, queuePageEnd)
