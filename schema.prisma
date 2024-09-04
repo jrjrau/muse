@@ -31,7 +31,11 @@ model Setting {
   queueAddResponseEphemeral      Boolean  @default(false)
   autoAnnounceNextSong           Boolean  @default(false)
   defaultVolume                  Int      @default(100)
+<<<<<<< HEAD
   pageSize                       Int      @default(10)
+=======
+  defaultQueuePageSize           Int      @default(10)
+>>>>>>> 0136efc642388f625e0fa80680b6deba2d837f4f
   createdAt                      DateTime @default(now())
   updatedAt                      DateTime @updatedAt
 }

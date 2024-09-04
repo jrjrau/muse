@@ -57,14 +57,14 @@ export default class implements Command {
         .setMaxValue(100)
         .setRequired(true)))
     .addSubcommand(subcommand => subcommand
-      .setName('set-queue-page-size')
-      .setDescription('set the number of songs to display per queue page')
+      .setName('set-default-queue-page-size')
+      .setDescription('set the default page size of the /queue command')
       .addIntegerOption(option => option
-          .setName('value')
-          .setDescription('default is 10')
-          .setMinValue(0)
-          .setMaxValue(100)
-          .setRequired(true)))
+        .setName('page-size')
+        .setDescription('page size of the /queue command')
+        .setMinValue(1)
+        .setMaxValue(30)
+        .setRequired(true)))
     .addSubcommand(subcommand => subcommand
       .setName('get')
       .setDescription('show all settings'));
@@ -196,6 +196,23 @@ export default class implements Command {
         break;
       }
 
+      case 'set-default-queue-page-size': {
+        const value = interaction.options.getInteger('page-size')!;
+
+        await prisma.setting.update({
+          where: {
+            guildId: interaction.guild!.id,
+          },
+          data: {
+            defaultQueuePageSize: value,
+          },
+        });
+
+        await interaction.reply('👍 default queue page size updated');
+
+        break;
+      }
+
       case 'get': {
         const embed = new EmbedBuilder().setTitle('Config');
 
@@ -210,7 +227,7 @@ export default class implements Command {
           'Auto announce next song in queue': config.autoAnnounceNextSong ? 'yes' : 'no',
           'Add to queue reponses show for requester only': config.autoAnnounceNextSong ? 'yes' : 'no',
           'Default Volume': config.defaultVolume,
-          'Queue Page Size': config.pageSize,
+          'Default queue page size': config.defaultQueuePageSize,
         };
 
         let description = '';

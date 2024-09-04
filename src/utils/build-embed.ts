@@ -75,7 +75,7 @@ export const buildPlayingMessageEmbed = (player: Player): EmbedBuilder => {
   return message;
 };
 
-export const buildQueueEmbed = (player: Player, page: number): EmbedBuilder => {
+export const buildQueueEmbed = (player: Player, page: number, pageSize: number): EmbedBuilder => {
   const currentlyPlaying = player.getCurrent();
 
   if (!currentlyPlaying) {
@@ -83,21 +83,23 @@ export const buildQueueEmbed = (player: Player, page: number): EmbedBuilder => {
   }
 
   const queueSize = player.queueSize();
-  const maxQueuePage = Math.ceil((queueSize + 1) / PAGE_SIZE);
+  const maxQueuePage = Math.ceil((queueSize + 1) / pageSize);
 
   if (page > maxQueuePage) {
     throw new Error('the queue isn\'t that big');
   }
+
   let queuePageBegin: number;
   let queuePageEnd: number;
-  if (page == 0) {
-    queuePageBegin = 1;
-    queuePageEnd = maxQueuePage;
+
+  if (page === 0) {
+    queuePageBegin = 0;
+    queuePageEnd = queueSize;
+  } else {
+    queuePageBegin = (page - 1) * pageSize;
+    queuePageEnd = queuePageBegin + pageSize;
   }
-  else {
-  queuePageBegin = (page - 1) * PAGE_SIZE;
-  queuePageEnd = queuePageBegin + PAGE_SIZE;}
-  
+
   const queuedSongs = player
     .getQueue()
     .slice(queuePageBegin, queuePageEnd)
